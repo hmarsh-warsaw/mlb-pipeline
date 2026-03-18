@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: mlb_raw
+    description: Raw tables loaded by ingestion scripts
+    schema: main
+    tables:
+      - name: batting_stats
+        description: Season-level batting stats from Fangraphs
+      - name: statcast_pitches
+        description: Pitch-level Statcast data from Baseball Savant
