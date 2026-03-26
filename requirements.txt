@@ -3,3 +3,5 @@ duckdb
 pandas
 dbt-duckdb
 jupyter
+requests
+python-dotenv

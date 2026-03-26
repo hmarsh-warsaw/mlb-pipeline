@@ -38,6 +38,7 @@ def fetch_prop_lines():
             "oddsFormat": ODDS_FORMAT,
         })
         if resp.status_code != 200:
+            print(f"  Skipping {home} vs {away}: {resp.status_code} {resp.text[:100]}")
             continue
 
         data = resp.json()
@@ -78,9 +79,10 @@ def load_to_db(df):
             odds INTEGER
         )
     """)
+    conn.execute("DELETE FROM prop_lines WHERE date_pulled = ?", [date.today().isoformat()])
     conn.execute("INSERT INTO prop_lines SELECT * FROM df")
-    count = conn.execute("SELECT COUNT(*) FROM prop_lines").fetchone()[0]
-    print(f"Loaded {len(df)} prop lines into DuckDB. Total rows: {count}")
+    count = conn.execute("SELECT COUNT(*) FROM prop_lines WHERE date_pulled = ?", [date.today().isoformat()]).fetchone()[0]
+    print(f"Loaded {count} prop lines for today into DuckDB.")
     conn.close()
 
 
